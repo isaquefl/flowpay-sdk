@@ -1,0 +1,51 @@
+{
+  "name": "@flowpay/sdk",
+  "version": "1.0.0",
+  "description": "SDK oficial para integração com a API FlowPay - Pagamentos PIX e Cartão",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "flowpay",
+    "pix",
+    "pagamentos",
+    "payment",
+    "brazil",
+    "api",
+    "sdk"
+  ],
+  "author": "FlowPay",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/flowpay/sdk-js"
+  },
+  "homepage": "https://flowpayments.net/docs",
+  "bugs": {
+    "url": "https://github.com/flowpay/sdk-js/issues"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
