@@ -1,9 +1,12 @@
-> 🍴 **Fork de [`codedbyflow/flowpay-sdk`](https://github.com/codedbyflow/flowpay-sdk)** — projeto original de **Kaio Silva** ([@codedbyflow](https://github.com/codedbyflow)), sob licença **MIT**.
-> Mantido em fork por **[Isaque Félix](https://github.com/isaquefl)** com adaptações e melhorias. Todo o crédito do código original permanece com o autor.
+# 💸 @flowpay/sdk
 
----
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-%E2%89%A516-339933?logo=nodedotjs&logoColor=white)
+![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+![Fork](https://img.shields.io/badge/Fork-adaptado-orange)
 
-# @flowpay/sdk
+> 🍴 **Este repositório é um FORK de [`codedbyflow/flowpay-sdk`](https://github.com/codedbyflow/flowpay-sdk)**, projeto original de **Kaio Silva** ([@codedbyflow](https://github.com/codedbyflow)), sob licença **MIT**.
+> Adaptado e mantido por **[Isaque Félix](https://github.com/isaquefl)** com melhorias de segurança, documentação e organização. Todo o crédito do código original permanece com o autor.
 
 SDK oficial para integração com a API FlowPay - Pagamentos PIX e Cartão.
 
@@ -17,13 +20,31 @@ yarn add @flowpay/sdk
 pnpm add @flowpay/sdk
 ```
 
+## ⚙️ Configuração via .env (recomendado)
+
+Nunca coloque sua chave de API diretamente no código. Use variáveis de ambiente:
+
+```bash
+cp .env.example .env   # preencha FLOWPAY_API_KEY
+```
+
+| Variável | Descrição |
+| --- | --- |
+| `FLOWPAY_API_KEY` | Chave de API da FlowPay (`fp_test_xxx` para testes, `fp_live_xxx` para produção) |
+
+```typescript
+import { FlowPay } from '@flowpay/sdk';
+
+const flowpay = new FlowPay(process.env.FLOWPAY_API_KEY!);
+```
+
 ## Início Rápido
 
 ```typescript
 import { FlowPay } from '@flowpay/sdk';
 
-// Inicializar o cliente
-const flowpay = new FlowPay('fp_live_sua_chave_aqui');
+// Inicializar o cliente (chave via variável de ambiente)
+const flowpay = new FlowPay(process.env.FLOWPAY_API_KEY!);
 
 // Criar cobrança PIX
 const charge = await flowpay.pix.create({
@@ -47,11 +68,11 @@ console.log(charge.qrCodeImage); // QR Code em base64
 import { FlowPay } from '@flowpay/sdk';
 
 // Configuração simples (apenas API key)
-const flowpay = new FlowPay('fp_live_sua_chave_aqui');
+const flowpay = new FlowPay(process.env.FLOWPAY_API_KEY!);
 
 // Configuração completa
 const flowpay = new FlowPay({
-  apiKey: 'fp_live_sua_chave_aqui',
+  apiKey: process.env.FLOWPAY_API_KEY!,
   baseUrl: 'https://flowpayments.net/api', // opcional
   timeout: 30000, // opcional, em ms
 });
@@ -191,7 +212,7 @@ import type {
 } from '@flowpay/sdk';
 
 const config: FlowPayConfig = {
-  apiKey: 'fp_live_xxx',
+  apiKey: process.env.FLOWPAY_API_KEY!,
   timeout: 60000,
 };
 
@@ -296,6 +317,72 @@ Quando um pagamento é confirmado, a taxa é calculada automaticamente:
 - **WhatsApp:** +55 11 93620-3588
 - **Chat:** https://chat.flowpayments.net
 
+## 🔒 Melhorias aplicadas neste fork
+
+- **Segurança**: exemplos do README atualizados para usar `process.env.FLOWPAY_API_KEY` em vez de chaves literais no código
+- **`.env.example`** adicionado e documentado (bilíngue)
+- **README** profissional e bilíngue (PT/EN), com créditos ao autor original
+
 ## Licença
 
-MIT © FlowPay
+**MIT** © FlowPay / Kaio Silva — veja o arquivo [`LICENSE`](LICENSE).
+
+---
+
+# 💸 @flowpay/sdk (English)
+
+> 🍴 **This repository is a FORK of [`codedbyflow/flowpay-sdk`](https://github.com/codedbyflow/flowpay-sdk)**, originally created by **Kaio Silva** ([@codedbyflow](https://github.com/codedbyflow)) under the **MIT** license.
+> Adapted and maintained by **[Isaque Félix](https://github.com/isaquefl)** with security, documentation and organization improvements. Full credit for the original code remains with the author.
+
+Official SDK for the FlowPay API — PIX and card payments for Brazil, written in TypeScript with complete type definitions.
+
+## Installation
+
+```bash
+npm install @flowpay/sdk
+```
+
+## Configuration (.env)
+
+Never hardcode your API key. Copy `.env.example` to `.env` and set:
+
+| Variable | Description |
+| --- | --- |
+| `FLOWPAY_API_KEY` | Your FlowPay API key (`fp_test_xxx` for sandbox, `fp_live_xxx` for production) |
+
+## Quick Start
+
+```typescript
+import { FlowPay } from '@flowpay/sdk';
+
+const flowpay = new FlowPay(process.env.FLOWPAY_API_KEY!);
+
+const charge = await flowpay.pix.create({
+  value: 5000, // BRL 50.00 in cents
+  description: 'Order #123',
+  customer: { name: 'João Silva', email: 'joao@email.com' },
+});
+
+console.log(charge.brCode);      // PIX copy-and-paste code
+console.log(charge.qrCodeImage); // base64 QR code
+```
+
+Other PIX methods: `getStatus(id)`, `isPaid(id)`, `waitForPayment(id, { timeout, interval })` and `list({ limit, status })`. Typed error classes are exported (`ValidationError`, `AuthenticationError`, `NotFoundError`, `RateLimitError`, `ServerError`, `FlowPayError`).
+
+## Charge statuses
+
+| Status | Description |
+| --- | --- |
+| `ACTIVE` | Awaiting payment |
+| `COMPLETED` | Payment confirmed |
+| `EXPIRED` | Charge expired (unpaid) |
+
+## Improvements in this fork
+
+- **Security**: README examples now use `process.env.FLOWPAY_API_KEY` instead of literal keys
+- Added a documented bilingual **`.env.example`**
+- Professional bilingual **README** with proper credits
+
+## License
+
+**MIT** © FlowPay / Kaio Silva — see [`LICENSE`](LICENSE).
