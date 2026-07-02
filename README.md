@@ -1,3 +1,8 @@
+> 🍴 **Fork de [`codedbyflow/flowpay-sdk`](https://github.com/codedbyflow/flowpay-sdk)** — projeto original de **Kaio Silva** ([@codedbyflow](https://github.com/codedbyflow)), sob licença **MIT**.
+> Mantido em fork por **[Isaque Félix](https://github.com/isaquefl)** com adaptações e melhorias. Todo o crédito do código original permanece com o autor.
+
+---
+
 # @flowpay/sdk
 
 SDK oficial para integração com a API FlowPay - Pagamentos PIX e Cartão.
